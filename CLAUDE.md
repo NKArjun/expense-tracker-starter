@@ -14,12 +14,15 @@ npm run preview  # preview production build
 
 ## Architecture
 
-This is a single-file React app — all state, logic, and UI live in `src/App.jsx`. There are no separate components, hooks, or utility files yet.
+The app is split into four components:
 
-**Known intentional issues (part of the course):**
-- `amount` is stored as a string in state, causing the income/expense totals to concatenate instead of add (the bug)
-- "Freelance Work" is seeded as `type: "expense"` but `category: "salary"` (data inconsistency)
-- No delete functionality
-- All UI in one monolithic component
+- `App.jsx` — holds the `transactions` array in state and the `handleAdd` callback; composes the three child components
+- `Summary.jsx` — receives `transactions`, computes `totalIncome`, `totalExpenses`, and `balance` internally
+- `TransactionForm.jsx` — owns all form field state; calls `onAdd(transaction)` on submit
+- `TransactionList.jsx` — owns filter state (`filterType`, `filterCategory`); receives `transactions` as a prop
+
+The `categories` array is duplicated in `TransactionForm` and `TransactionList` — not yet extracted to a shared constant.
 
 The app uses in-memory state only — no backend, no localStorage, data resets on refresh.
+
+**Remaining known issue:** "Freelance Work" is seeded as `type: "expense"` but `category: "salary"` (data inconsistency).
